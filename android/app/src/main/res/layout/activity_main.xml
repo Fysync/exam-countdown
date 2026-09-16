@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="研途倒计时"
+            android:textColor="#173B32"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="2027 考研 · 桌面小组件"
+            android:textColor="#DA6A4F"
+            android:textSize="12sp"
+            android:fontFamily="monospace" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="18dp"
+            android:background="#19221F22" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="6dp"
+            android:text="把倒计时牌放到桌面：\n\n1. 回到主屏幕，长按空白处\n2. 选择「小组件」\n3. 找到「研途倒计时」\n4. 拖到桌面即可\n\n长按小组件可以更改考试日期，或点「配置」进入设置。\n\n默认考试日期：2027-12-25"
+            android:textColor="#19221F"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="18dp"
+            android:background="#19221F22" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="调整大小：长按小组件边缘拖动即可。小尺寸会自动切换为紧凑布局。"
+            android:textColor="#6F766F"
+            android:textSize="12sp" />
+    </LinearLayout>
+</ScrollView>

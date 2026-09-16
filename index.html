@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="像教室门口那块实体倒计时牌一样的考研倒计时桌面小组件，可离线使用。" />
+  <meta name="theme-color" content="#e9e5dc" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#102c26" media="(prefers-color-scheme: dark)" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="研途倒计时" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <title>研途倒计时 · 2027 考研</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="workspace">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> STUDY / 2027</p>
+      <h1 id="page-title">把每一天，<br /><em>算进</em>上岸里。</h1>
+      <p class="intro-copy">像教室门口那块牌子一样，安静、准确，陪你走完最后一程。</p>
+      <p class="meta-line">
+        <span class="meta-dot" aria-hidden="true"></span>
+        <span id="todayLabel">正在同步今日</span>
+        <span class="meta-divider" aria-hidden="true"></span>
+        <span>目标：<b id="introTarget">2027 考研</b></span>
+      </p>
+    </section>
+
+    <section class="widget-area" aria-label="考研倒计时小组件">
+      <div class="widget-label">
+        <span>WIDGET PREVIEW</span>
+        <span class="widget-size" id="sizeLabel">中号 · 4 × 2</span>
+      </div>
+
+      <div class="countdown-sign sign--medium" id="countdownSign" data-size="medium" data-state="counting">
+        <span class="mount mount--left" aria-hidden="true"></span>
+        <span class="mount mount--right" aria-hidden="true"></span>
+
+        <div class="sign-topline">
+          <span class="brand-mark" aria-hidden="true">●</span>
+          <span class="brand-text">HORIZON / 学习计时器</span>
+          <span class="power-light" id="powerLight" title="屏幕常亮状态" aria-hidden="true"></span>
+        </div>
+
+        <div class="sign-face">
+          <div class="face-header">
+            <span class="face-title">距离研究生考试还有</span>
+            <span class="date-chip" id="dateChip">2027.12.25</span>
+          </div>
+
+          <div class="display-window">
+            <span class="ghost-digits" aria-hidden="true">888</span>
+            <span class="live-digits" id="daysDisplay" role="timer" aria-live="polite">000</span>
+            <span class="unit">天</span>
+          </div>
+
+          <div class="precision" id="precisionRow" hidden>
+            <span class="precision-label">今日剩余</span>
+            <span class="precision-value" id="precisionValue">00:00:00</span>
+          </div>
+
+          <div class="face-footer">
+            <span id="statusText">KEEP GOING</span>
+            <span>目标日期 · <b id="footerDate">2027 / 12 / 25</b></span>
+          </div>
+        </div>
+
+        <div class="sign-bottomline">
+          <span>EST. 2026</span>
+          <span class="screw" aria-hidden="true"></span>
+          <span class="screw" aria-hidden="true"></span>
+          <span>NO. 027</span>
+        </div>
+
+        <div class="extra-info">
+          <div class="extra-item">
+            <span class="extra-label">剩余周数</span>
+            <span class="extra-value" id="weeksLeft">--</span>
+          </div>
+          <div class="extra-item">
+            <span class="extra-label">考试星期</span>
+            <span class="extra-value" id="examWeekday">--</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="desk-shadow" aria-hidden="true"></div>
+      <p class="widget-caption"><span>实体牌模式</span><span>每天 00:00 自动更新</span></p>
+    </section>
+
+    <aside class="settings-panel" aria-label="倒计时设置">
+      <div class="panel-heading">
+        <div>
+          <p class="section-kicker">PERSONALIZE</p>
+          <h2>你的目标日</h2>
+        </div>
+        <span class="panel-index" aria-hidden="true">01</span>
+      </div>
+
+      <label class="date-field">
+        <span>考试日期</span>
+        <input id="examDate" type="date" value="2027-12-25" />
+      </label>
+
+      <div class="quick-dates">
+        <button type="button" data-date="2027-12-25">2027 考研</button>
+        <button type="button" data-date="2027-12-18">预留日期</button>
+      </div>
+
+      <div class="panel-divider" aria-hidden="true"></div>
+
+      <div class="setting-row">
+        <div>
+          <strong>屏幕常亮</strong>
+          <small id="alwaysOnHint">保持倒计时牌持续显示</small>
+        </div>
+        <button class="toggle is-on" id="alwaysOn" type="button" role="switch" aria-checked="true">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <strong>显示秒数</strong>
+          <small>显示今日剩余时分秒</small>
+        </div>
+        <button class="toggle" id="showSeconds" type="button" role="switch" aria-checked="false">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="panel-divider" aria-hidden="true"></div>
+
+      <div class="size-heading">
+        <span>桌面尺寸</span>
+        <span class="hint">适配平板</span>
+      </div>
+      <div class="size-options">
+        <button type="button" class="size-option" data-size="small">
+          <i aria-hidden="true"></i><span>小号</span><small>2 × 2</small>
+        </button>
+        <button type="button" class="size-option active" data-size="medium">
+          <i aria-hidden="true"></i><span>中号</span><small>4 × 2</small>
+        </button>
+        <button type="button" class="size-option" data-size="large">
+          <i aria-hidden="true"></i><span>大号</span><small>4 × 4</small>
+        </button>
+      </div>
+
+      <p class="save-note"><span class="checkmark" aria-hidden="true">✓</span> 设置自动保存在本设备</p>
+    </aside>
+  </main>
+
+  <button class="focus-toggle" id="focusToggle" type="button">专注模式</button>
+
+  <footer class="page-footer">
+    <span>一寸光阴 · 一寸进度</span>
+    <span>考研倒计时 / 2027</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

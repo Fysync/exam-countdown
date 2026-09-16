@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sign_green_top">#234D40</color>
+    <color name="sign_green_bottom">#102921</color>
+    <color name="sign_face">#1D302C</color>
+    <color name="sign_window">#15231F</color>
+    <color name="amber">#F1AD3D</color>
+    <color name="amber_dim">#DC9A39</color>
+    <color name="text_soft">#B1C4AC</color>
+    <color name="text_faint">#738D7F</color>
+    <color name="text_date">#ADBC98</color>
+    <color name="brand_text">#82A295</color>
+</resources>

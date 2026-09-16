@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">研途倒计时</string>
+    <string name="widget_config_title">设置考试日期</string>
+    <string name="widget_description">距离研究生考试还有几天</string>
+</resources>

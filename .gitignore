@@ -16,3 +16,6 @@ Thumbs.db
 
 # Python
 __pycache__/
+
+# 构建产物（本机下载的 APK）
+dist/

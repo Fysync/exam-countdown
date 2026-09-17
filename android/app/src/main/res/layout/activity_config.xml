@@ -1,45 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="#E9E5DC">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="选择考试日期"
+        android:text="设置考试日期"
         android:textColor="#173B32"
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/currentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="2027.12.25"
+        android:textColor="#DA6A4F"
+        android:textSize="15sp"
+        android:fontFamily="monospace" />
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:datePickerMode="spinner" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:gravity="end">
-
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="取消"
-            style="?attr/materialButtonOutlinedStyle" />
-
-        <Button
-            android:id="@+id/btnConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="确定"
-            style="?attr/materialButtonStyle" />
-    </LinearLayout>
+        android:text="正在打开日期选择…"
+        android:textColor="#6F766F"
+        android:textSize="12sp" />
 </LinearLayout>

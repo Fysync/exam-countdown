@@ -9,7 +9,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 
 /**
- * 桌面小组件核心：渲染倒计时牌、按桌面格子大小切换布局、响应定时刷新。
+ * 桌面小组件核心：渲染倒计时牌、按尺寸偏好/桌面格子切换布局、响应定时刷新。
  */
 class CountdownWidgetProvider : AppWidgetProvider() {
 
@@ -59,13 +59,23 @@ class CountdownWidgetProvider : AppWidgetProvider() {
     ): RemoteViews {
         val minWidth = manager.getAppWidgetOptions(appWidgetId)
             .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 0)
-        val small = minWidth < 220
 
-        val layout = if (small) R.layout.widget_countdown_small else R.layout.widget_countdown
+        val sizeMode = CountdownEngine.getSizeMode(context)
+        val useLarge = sizeMode == CountdownEngine.SIZE_LARGE
+        val useSmall = when (sizeMode) {
+            CountdownEngine.SIZE_SMALL -> true
+            CountdownEngine.SIZE_MEDIUM, CountdownEngine.SIZE_LARGE -> false
+            else -> minWidth < 220 // 自动：跟随桌面格子宽度
+        }
+
+        val layout = when {
+            useSmall -> R.layout.widget_countdown_small
+            useLarge -> R.layout.widget_countdown_large
+            else -> R.layout.widget_countdown
+        }
         val views = RemoteViews(context.packageName, layout)
 
-        val examDate = CountdownEngine.getExamDate(context, appWidgetId)
-        val target = CountdownEngine.parseDate(examDate)
+        val target = CountdownEngine.parseDate(CountdownEngine.getExamDate(context, appWidgetId))
             ?: return views
 
         val days = CountdownEngine.calendarDaysLeft(target)
@@ -87,6 +97,12 @@ class CountdownWidgetProvider : AppWidgetProvider() {
             R.id.power_light,
             if (lightOn) R.drawable.power_light else R.drawable.power_light_off
         )
+
+        // 仅大号布局才有这两个附加信息
+        if (useLarge) {
+            views.setTextViewText(R.id.weeks_value, CountdownEngine.weeksLabel(days))
+            views.setTextViewText(R.id.weekday_value, CountdownEngine.weekdayLabel(target))
+        }
         return views
     }
 

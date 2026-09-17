@@ -4,18 +4,21 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.examcountdown.databinding.ActivityConfigBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneOffset
 
 /**
- * 小组件配置页：选择考试日期（默认 2027-12-25）。
+ * 小组件配置页：用 MaterialDatePicker 日历选择考试日期（默认 2027-12-25）。
  */
 class CountdownWidgetConfigActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityConfigBinding
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+    private var handled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,30 +34,33 @@ class CountdownWidgetConfigActivity : AppCompatActivity() {
             return
         }
 
-        val examDate = CountdownEngine.getExamDate(this, appWidgetId)
-        val initial = CountdownEngine.parseDate(examDate) ?: LocalDate.of(2027, 12, 25)
-        binding.datePicker.init(initial.year, initial.monthValue - 1, initial.dayOfMonth, null)
+        val initial = CountdownEngine.parseDate(CountdownEngine.getExamDate(this, appWidgetId))
+            ?: LocalDate.of(2027, 12, 25)
+        binding.currentDate.text = CountdownEngine.formatDot(initial)
 
-        binding.btnConfirm.setOnClickListener {
-            val date = LocalDate.of(
-                binding.datePicker.year,
-                binding.datePicker.month + 1,
-                binding.datePicker.dayOfMonth
-            )
-            if (date.isBefore(LocalDate.now())) {
-                Toast.makeText(this, "考试日期不能早于今天", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+        showDatePicker(initial)
+    }
+
+    private fun showDatePicker(initial: LocalDate) {
+        val picker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("选择考试日期")
+            .setSelection(initial.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli())
+            .build()
+
+        picker.addOnPositiveButtonClickListener { selection ->
+            handled = true
+            val date = Instant.ofEpochMilli(selection).atZone(ZoneOffset.UTC).toLocalDate()
             CountdownEngine.saveExamDate(this, appWidgetId, date.toString())
 
             val manager = AppWidgetManager.getInstance(this)
             CountdownWidgetProvider().onUpdate(this, manager, intArrayOf(appWidgetId))
 
-            val result = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            setResult(Activity.RESULT_OK, result)
+            setResult(Activity.RESULT_OK, Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId))
             finish()
         }
+        picker.addOnCancelListener { finish() }
+        picker.addOnDismissListener { if (!handled) finish() }
 
-        binding.btnCancel.setOnClickListener { finish() }
+        picker.show(supportFragmentManager, "exam_date_picker")
     }
 }

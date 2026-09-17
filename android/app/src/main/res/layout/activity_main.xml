@@ -1,58 +1,439 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E9E5DC">
 
+    <!-- 顶部：标题 + 页面切换 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="28dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="12dp">
 
-        <TextView
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="研途倒计时"
+                android:textColor="#173B32"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="2027 考研 · 桌面小组件"
+                android:textColor="#DA6A4F"
+                android:textSize="11sp"
+                android:fontFamily="monospace" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/tabManage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="研途倒计时"
-            android:textColor="#173B32"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="管理台"
+            android:textSize="13sp"
+            android:textAllCaps="false"
+            android:background="@drawable/pill_active"
+            android:textColor="#FFFFFF" />
 
-        <TextView
+        <Button
+            android:id="@+id/tabClock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="2027 考研 · 桌面小组件"
-            android:textColor="#DA6A4F"
-            android:textSize="12sp"
-            android:fontFamily="monospace" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp"
-            android:background="#19221F22" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="6dp"
-            android:text="把倒计时牌放到桌面：\n\n1. 回到主屏幕，长按空白处\n2. 选择「小组件」\n3. 找到「研途倒计时」\n4. 拖到桌面即可\n\n长按小组件可以更改考试日期，或点「配置」进入设置。\n\n默认考试日期：2027-12-25"
-            android:textColor="#19221F"
-            android:textSize="15sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginBottom="18dp"
-            android:background="#19221F22" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="调整大小：长按小组件边缘拖动即可。小尺寸会自动切换为紧凑布局。"
-            android:textColor="#6F766F"
-            android:textSize="12sp" />
+            android:layout_marginStart="8dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="桌面时钟"
+            android:textSize="13sp"
+            android:textAllCaps="false"
+            android:background="@drawable/pill_inactive"
+            android:textColor="#173B32" />
     </LinearLayout>
-</ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#19221F22" />
+
+    <!-- 内容区 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- 页 1：管理台 -->
+        <ScrollView
+            android:id="@+id/pageManage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- 考试日期 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/card_bg"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="考试日期"
+                        android:textColor="#6F766F"
+                        android:textSize="11sp"
+                        android:fontFamily="monospace" />
+
+                    <TextView
+                        android:id="@+id/currentDateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="2027.12.25"
+                        android:textColor="#173B32"
+                        android:textSize="26sp"
+                        android:fontFamily="monospace" />
+
+                    <Button
+                        android:id="@+id/btnPickDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="9dp"
+                        android:text="选择日期"
+                        android:textSize="13sp"
+                        android:textAllCaps="false"
+                        android:background="@drawable/pill_active"
+                        android:textColor="#FFFFFF" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/quickButton2027"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingHorizontal="14dp"
+                            android:paddingVertical="8dp"
+                            android:text="2027 考研"
+                            android:textSize="12sp"
+                            android:textAllCaps="false"
+                            android:background="@drawable/pill_inactive"
+                            android:textColor="#173B32" />
+
+                        <Button
+                            android:id="@+id/quickButtonReserve"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingHorizontal="14dp"
+                            android:paddingVertical="8dp"
+                            android:text="预留日期"
+                            android:textSize="12sp"
+                            android:textAllCaps="false"
+                            android:background="@drawable/pill_inactive"
+                            android:textColor="#173B32" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 桌面尺寸 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/card_bg"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="桌面尺寸（对倒计时小组件生效）"
+                        android:textColor="#6F766F"
+                        android:textSize="11sp"
+                        android:fontFamily="monospace" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/sizeAuto"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingVertical="9dp"
+                            android:text="自动"
+                            android:textSize="12sp"
+                            android:textAllCaps="false"
+                            android:background="@drawable/pill_active"
+                            android:textColor="#FFFFFF" />
+
+                        <Button
+                            android:id="@+id/sizeSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingVertical="9dp"
+                            android:text="小"
+                            android:textSize="12sp"
+                            android:textAllCaps="false"
+                            android:background="@drawable/pill_inactive"
+                            android:textColor="#173B32" />
+
+                        <Button
+                            android:id="@+id/sizeMedium"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingVertical="9dp"
+                            android:text="中"
+                            android:textSize="12sp"
+                            android:textAllCaps="false"
+                            android:background="@drawable/pill_inactive"
+                            android:textColor="#173B32" />
+
+                        <Button
+                            android:id="@+id/sizeLarge"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingVertical="9dp"
+                            android:text="大"
+                            android:textSize="12sp"
+                            android:textAllCaps="false"
+                            android:background="@drawable/pill_inactive"
+                            android:textColor="#173B32" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 说明 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/card_bg"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="怎么把小组件放到桌面"
+                        android:textColor="#6F766F"
+                        android:textSize="11sp"
+                        android:fontFamily="monospace" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="长按主屏幕空白处 → 选择「小组件」→ 找到「研途倒计时」→ 拖到桌面。\n\n长按已放置的小组件可调整大小，或点「配置」单独改它的考试日期。"
+                        android:textColor="#19221F"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnRefresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingVertical="12dp"
+                    android:text="立即刷新小组件"
+                    android:textSize="14sp"
+                    android:textAllCaps="false"
+                    android:background="@drawable/pill_active"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- 页 2：桌面时钟 -->
+        <FrameLayout
+            android:id="@+id/pageClock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@drawable/clock_page_bg">
+
+            <View
+                android:id="@+id/clockGlow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:background="@drawable/clock_glow" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/clockHour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="08"
+                        android:textColor="@color/amber"
+                        android:textSize="92sp"
+                        android:includeFontPadding="false"
+                        android:fontFamily="@font/dseg7_classic_bold"
+                        android:shadowColor="#F5BB56"
+                        android:shadowRadius="14"
+                        android:shadowDx="0"
+                        android:shadowDy="0" />
+
+                    <LinearLayout
+                        android:id="@+id/clockColon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/clock_dot" />
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:background="@drawable/clock_dot" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/clockMinute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30"
+                        android:textColor="@color/amber"
+                        android:textSize="92sp"
+                        android:includeFontPadding="false"
+                        android:fontFamily="@font/dseg7_classic_bold"
+                        android:shadowColor="#F5BB56"
+                        android:shadowRadius="14"
+                        android:shadowDx="0"
+                        android:shadowDy="0" />
+
+                    <TextView
+                        android:id="@+id/clockSeconds"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:text="45"
+                        android:textColor="@color/amber_dim"
+                        android:textSize="42sp"
+                        android:includeFontPadding="false"
+                        android:fontFamily="@font/dseg7_classic_bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="26dp"
+                        android:text="秒"
+                        android:textColor="@color/amber_dim"
+                        android:textSize="13sp"
+                        android:fontFamily="monospace" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/clockDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="2026.09.16 周三"
+                    android:textColor="#B1C4AC"
+                    android:textSize="15sp"
+                    android:fontFamily="monospace" />
+
+                <TextView
+                    android:id="@+id/clockCountdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="距研究生考试还有 465 天"
+                    android:textColor="@color/amber_dim"
+                    android:textSize="17sp"
+                    android:fontFamily="monospace" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="横屏常亮 · 点击上方「管理台」返回"
+                    android:textColor="#738D7F"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:alpha="0.22"
+                android:clickable="false"
+                android:focusable="false"
+                android:background="@drawable/scanlines" />
+        </FrameLayout>
+    </FrameLayout>
+</LinearLayout>

@@ -50,20 +50,14 @@
             android:includeFontPadding="false"
             android:fontFamily="@font/dseg7_classic_bold" />
 
-        <TextView
-            android:id="@+id/days_display"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="000"
-            android:textColor="@color/amber"
-            android:textSize="40sp"
-            android:includeFontPadding="false"
-            android:fontFamily="@font/dseg7_classic_bold"
-            android:shadowColor="#F5BB56"
-            android:shadowRadius="8"
-            android:shadowDx="0"
-            android:shadowDy="0" />
+<ImageView
+                android:id="@+id/days_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:contentDescription="@null" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -91,23 +85,21 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/date_chip"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="2027.12.25"
-            android:textColor="@color/amber_dim"
-            android:textSize="9sp"
-            android:fontFamily="monospace" />
+<ImageView
+                android:id="@+id/date_chip_image"
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:contentDescription="@null" />
 
-        <TextView
-            android:id="@+id/footer_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2027 / 12 / 25"
-            android:textColor="@color/text_faint"
-            android:textSize="9sp"
-            android:fontFamily="monospace" />
+<ImageView
+                android:id="@+id/footer_date_image"
+                android:layout_width="wrap_content"
+                android:layout_height="12dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:contentDescription="@null" />
     </LinearLayout>
 </LinearLayout>

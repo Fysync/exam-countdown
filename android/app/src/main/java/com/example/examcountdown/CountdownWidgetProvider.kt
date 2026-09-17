@@ -6,10 +6,17 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.widget.RemoteViews
+import androidx.core.content.res.ResourcesCompat
+import kotlin.math.ceil
 
 /**
- * 桌面小组件核心：渲染倒计时牌、按尺寸偏好/桌面格子切换布局、响应定时刷新。
+ * 桌面小组件核心：用 DSEG7 数码管字体把数字渲染成图片再交给小组件，
+ * 绕开部分桌面（如一加）不渲染 RemoteViews 自定义字体的问题。
  */
 class CountdownWidgetProvider : AppWidgetProvider() {
 
@@ -59,20 +66,9 @@ class CountdownWidgetProvider : AppWidgetProvider() {
     ): RemoteViews {
         val minWidth = manager.getAppWidgetOptions(appWidgetId)
             .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, 0)
+        val small = minWidth < 220
 
-        val sizeMode = CountdownEngine.getSizeMode(context)
-        val useLarge = sizeMode == CountdownEngine.SIZE_LARGE
-        val useSmall = when (sizeMode) {
-            CountdownEngine.SIZE_SMALL -> true
-            CountdownEngine.SIZE_MEDIUM, CountdownEngine.SIZE_LARGE -> false
-            else -> minWidth < 220 // 自动：跟随桌面格子宽度
-        }
-
-        val layout = when {
-            useSmall -> R.layout.widget_countdown_small
-            useLarge -> R.layout.widget_countdown_large
-            else -> R.layout.widget_countdown
-        }
+        val layout = if (small) R.layout.widget_countdown_small else R.layout.widget_countdown
         val views = RemoteViews(context.packageName, layout)
 
         val target = CountdownEngine.parseDate(CountdownEngine.getExamDate(context, appWidgetId))
@@ -81,9 +77,18 @@ class CountdownWidgetProvider : AppWidgetProvider() {
         val days = CountdownEngine.calendarDaysLeft(target)
         val displayDays = if (days > 0) days else 0L
 
-        views.setTextViewText(R.id.days_display, String.format("%03d", displayDays))
-        views.setTextViewText(R.id.date_chip, CountdownEngine.formatDot(target))
-        views.setTextViewText(R.id.footer_date, CountdownEngine.formatSlash(target))
+        views.setImageViewBitmap(
+            R.id.days_image,
+            renderDigits(context, String.format("%03d", displayDays), 360, COLOR_AMBER, true)
+        )
+        views.setImageViewBitmap(
+            R.id.date_chip_image,
+            renderDigits(context, CountdownEngine.formatDot(target), 44, COLOR_AMBER_DIM, false)
+        )
+        views.setImageViewBitmap(
+            R.id.footer_date_image,
+            renderDigits(context, CountdownEngine.formatSlash(target), 34, COLOR_DATE, false)
+        )
 
         val status = when {
             days == 0L -> "就是今天，全力以赴"
@@ -97,17 +102,44 @@ class CountdownWidgetProvider : AppWidgetProvider() {
             R.id.power_light,
             if (lightOn) R.drawable.power_light else R.drawable.power_light_off
         )
-
-        // 仅大号布局才有这两个附加信息
-        if (useLarge) {
-            views.setTextViewText(R.id.weeks_value, CountdownEngine.weeksLabel(days))
-            views.setTextViewText(R.id.weekday_value, CountdownEngine.weekdayLabel(target))
-        }
         return views
+    }
+
+    /** 用 DSEG7 字体把数字渲染成琥珀色带光晕的图片。 */
+    private fun renderDigits(
+        context: Context,
+        text: String,
+        textSizePx: Int,
+        color: Int,
+        glow: Boolean
+    ): Bitmap {
+        val typeface = ResourcesCompat.getFont(context, R.font.dseg7_classic_bold)
+            ?: Typeface.MONOSPACE
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            this.typeface = typeface
+            this.textSize = textSizePx.toFloat()
+            this.color = color
+            if (glow) setShadowLayer(textSizePx * 0.05f, 0f, 0f, 0xFFF5BB56.toInt())
+        }
+
+        val pad = if (glow) textSizePx / 12 + 6 else 6
+        val width = ceil(paint.measureText(text)).toInt() + pad * 2
+        val height = textSizePx + pad * 2
+
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        val fm = paint.fontMetrics
+        val baseline = (height - fm.ascent - fm.descent) / 2f
+        canvas.drawText(text, (width - paint.measureText(text)) / 2f, baseline, paint)
+        return bitmap
     }
 
     companion object {
         const val ACTION_REFRESH = "com.example.examcountdown.ACTION_REFRESH"
+
+        private const val COLOR_AMBER = 0xFFF1AD3D.toInt()
+        private const val COLOR_AMBER_DIM = 0xFFDC9A39.toInt()
+        private const val COLOR_DATE = 0xFFADBC98.toInt()
 
         fun refreshPendingIntent(context: Context): PendingIntent {
             val intent = Intent(context, CountdownWidgetProvider::class.java)

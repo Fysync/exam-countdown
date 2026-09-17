@@ -82,12 +82,8 @@ class CountdownWidgetProvider : AppWidgetProvider() {
             renderDigits(context, String.format("%03d", displayDays), 360, COLOR_AMBER, true)
         )
         views.setImageViewBitmap(
-            R.id.date_chip_image,
-            renderDigits(context, CountdownEngine.formatDot(target), 44, COLOR_AMBER_DIM, false)
-        )
-        views.setImageViewBitmap(
             R.id.footer_date_image,
-            renderDigits(context, CountdownEngine.formatSlash(target), 34, COLOR_DATE, false)
+            renderDigits(context, CountdownEngine.formatDot(target), 34, COLOR_DATE, false)
         )
 
         val status = when {
@@ -138,7 +134,6 @@ class CountdownWidgetProvider : AppWidgetProvider() {
         const val ACTION_REFRESH = "com.example.examcountdown.ACTION_REFRESH"
 
         private const val COLOR_AMBER = 0xFFF1AD3D.toInt()
-        private const val COLOR_AMBER_DIM = 0xFFDC9A39.toInt()
         private const val COLOR_DATE = 0xFFADBC98.toInt()
 
         fun refreshPendingIntent(context: Context): PendingIntent {

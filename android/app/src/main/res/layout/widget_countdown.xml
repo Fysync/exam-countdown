@@ -52,14 +52,6 @@
                 android:textColor="@color/text_soft"
                 android:textSize="11sp"
                 android:fontFamily="monospace" />
-
-            <ImageView
-                android:id="@+id/date_chip_image"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:contentDescription="@null" />
         </LinearLayout>
 
         <FrameLayout
@@ -69,17 +61,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/widget_window_bg">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="888"
-                android:textColor="@color/amber"
-                android:alpha="0.08"
-                android:textSize="52sp"
-                android:includeFontPadding="false"
-                android:fontFamily="@font/dseg7_classic_bold" />
 
             <ImageView
                 android:id="@+id/days_image"

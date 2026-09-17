@@ -7,15 +7,16 @@ android/
 ├── app/src/main/
 │   ├── AndroidManifest.xml
 │   ├── java/com/example/examcountdown/
-│   │   ├── CountdownWidgetProvider.kt    小组件核心：渲染 + 尺寸自适应
-│   │   ├── CountdownWidgetConfigActivity.kt  选考试日期（DatePicker）
-│   │   ├── CountdownEngine.kt            日期计算 + 每小组件独立存储
+│   │   ├── CountdownWidgetProvider.kt    小组件核心：DSEG7 渲染数字为图片 + 刷新
+│   │   ├── CountdownWidgetConfigActivity.kt  选考试日期（MaterialDatePicker 日历）
+│   │   ├── CountdownEngine.kt            日期计算 + 每小组件独立存储 + 全局默认日期
 │   │   ├── UpdateScheduler.kt            午夜刷新调度（避开精确闹钟权限）
 │   │   ├── BootReceiver.kt               开机/升级后恢复刷新
-│   │   └── MainActivity.kt               安装说明页
+│   │   └── MainActivity.kt               两页：管理台（设日期/刷新）+ 桌面时钟（横屏常亮）
 │   └── res/
-│       ├── layout/  widget_countdown.xml（大）、widget_countdown_small.xml（小）
-│       ├── drawable/ 金属壳、液晶窗、扫描线、螺丝、图标
+│       ├── layout/  widget_countdown.xml（标准）、widget_countdown_small.xml（紧凑）
+│       ├── font/    DSEG7 数码管字体（OFL 协议）
+│       ├── drawable/ 金属壳、液晶窗、扫描线、图标
 │       └── xml/countdown_widget_info.xml
 └── build.gradle 等 Gradle 配置
 ```
